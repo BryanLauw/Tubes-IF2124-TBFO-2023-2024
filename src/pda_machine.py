@@ -1,4 +1,5 @@
 import os
+import argparse
 
 state_list = []
 input_list = []
@@ -20,24 +21,6 @@ def printPda():
     for i in transition_table:
         print(i)
 
-# def splitSymbols2(string): 
-#     temp = []
-#     char_buffer = ""
-#     for i in string:
-#         if i in stack_symbols and char_buffer == "":
-#             temp.append(i)
-#         elif char_buffer in stack_symbols:
-#             temp.append(char_buffer)
-#             char_buffer = ""
-#         else:
-#             char_buffer += i
-#     if char_buffer in stack_symbols:
-#         temp.append(char_buffer)
-#     temp.reverse()
-#     # print("AAAA",end=" ")
-#     # print(temp)
-#     return temp
-
 def inputAccepted(input, state, stack):
     for i in transition_table:
         if (i[0] == state and i[1] == input and stack[-1] == i[2]):
@@ -49,13 +32,36 @@ def splitSymbols(string):
     temp.reverse()
     return temp
 
+def epsilonTransition(state,stack):
+    can_epsilon = True
+    while can_epsilon:
+        can_epsilon = False
+        if stack != []:
+            for i in transition_table:
+                if i[0] == state and i[1] == 'e' and stack[-1] == i[2]:
+                    state = i[3]
+                    stack.pop()
+                    for j in splitSymbols(i[4]):
+                        stack.append(j)
+                    can_epsilon = True
+                    break
+    return (state,stack)
+
 dirname = os.path.dirname(__file__)
 
-# nama_file_pda = input("Masukkan nama file definisi PDA: ")
-# nama_file_pda = os.path.join(dirname, f"{nama_file_pda}.txt")
-nama_file_pda = os.path.join(dirname, "PDA.txt")
+parser = argparse.ArgumentParser()
+parser.add_argument("a")
+parser.add_argument("b")
+args = parser.parse_args()
+
+nama_file_pda = args.a
+nama_file_pda = os.path.join(dirname,nama_file_pda)
 file_pda = open(nama_file_pda,"r")
 #print(file_pda)
+
+nama_file_html = args.b
+nama_file_html = os.path.join(dirname,nama_file_html)
+file_html = open(nama_file_html,"r")
 
 # convert pda from txt to py
 for word in file_pda.readline().split():
@@ -73,52 +79,27 @@ accept_condition = file_pda.readline().split()[0]
 for line in file_pda:
     if (line.strip()):
         transition_table.append(line.split())
-
 #printPda()
-# nama_file_html = input("Masukkan nama file HTML: ")
-#nama_file_html = os.path.join(dirname, f"{nama_file_html}.txt")
-nama_file_html = os.path.join(dirname, "tes_html.html")
-file_html = open(nama_file_html,"r")
 
-Lines = file_html.read().replace(' ','').replace('\n','')
-print(Lines)
+Lines = file_html.readlines()
 
-def epsilonTransition(state,stack):
-    can_epsilon = True
-    while can_epsilon:
-        can_epsilon = False
-        if stack != []:
-            for i in transition_table:
-                if i[0] == state and i[1] == 'e' and stack[-1] == i[2]:
-                    state = i[3]
-                    stack.pop()
-                    for j in splitSymbols(i[4]):
-                        stack.append(j)
-                    can_epsilon = True
-                    break
-    return (state,stack)
-
-# for i in transition_table:
-#     print(i)
-
-def isAccepted(Lines,state,stack):
-    word_buffer = ""
-    while (Lines != ''):
+word_buffer = ""
+m=1
+last_input = m
+for line in Lines:
+    for char in line:
         input = None
         state, stack = epsilonTransition(state,stack)
         old_state = state[:]
         old_stack = stack[:]
 
-        if Lines[0] != ' ' and Lines[0] != '\n': 
-            word_buffer += Lines[0]
+        if char != ' ' and char != '\n': 
+            word_buffer += char
 
         if word_buffer in input_list:  
             input = word_buffer
-        # else:
-        #     print(word_buffer,state,stack)
 
         if input != None:
-            # print(input)
             can_search = False
             if stack != []:
                 for i in transition_table:
@@ -135,8 +116,12 @@ def isAccepted(Lines,state,stack):
                         can_search = True
                         break
             if can_search:
+                last_input = m
                 word_buffer = ''
-                print(input,old_state,old_stack,state,stack)
+                # print(input,old_state,old_stack,state,stack)
+                print(input,m,state,stack)
+            else:
+                print(input)
         
         if input == None or not can_search:
             # '%' sebagai pengganti simbol 'all'
@@ -154,8 +139,32 @@ def isAccepted(Lines,state,stack):
                             else:
                                 stack.append(j)
                     break
-        Lines = Lines[1:]
-    epsilonTransition(state,stack)
-    return (accept_condition == "F" and state in final_states) or (accept_condition == "E" and stack == [])
+    m += 1
 
-print("\n",isAccepted(Lines,state,stack))
+epsilonTransition(state,stack)
+print(state,stack)
+if (accept_condition == "F" and state in final_states) or (accept_condition == "E" and stack == []):
+    print("Accepted")
+else:
+    print("Syntax Error")
+    print(f'Terjadi kesalahan ekspresi pada line {last_input} : "{Lines[last_input-1].strip()}"')
+    temp = []
+    for i in transition_table:
+        if i[0] == state and i[2] == stack[-1] and splitSymbols(i[4])[0] != stack[-1]:
+            temp.append(i[1])
+    if len(temp)>0:
+        print("Expected input: ",end="")
+        for i in range(len(temp)):
+            if (i>0):
+                print(", ",end="")
+            print(temp[i],end=" ")
+    else:
+        temp = []
+        for i in transition_table:
+            if i[0] == state and i[2] == stack[-1]:
+                temp.append(i[1])
+        print("Expected input: ",end="")
+        for i in range(len(temp)):
+            if (i>0):
+                print(", ",end="")
+            print(temp[i],end=" ")
