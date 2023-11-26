@@ -33,6 +33,6 @@ Direktori tugas besar ini memiliki struktur file sebagai berikut:
 ## Anggota Kelompok
 | NIM | Nama |
 |-----|------|
-| 13522002 | Ariel Hefrinson |
+| 13522002 | Ariel Herfrison |
 | 13522007 | Irfan Sidiq Permana |
 | 13522033 | Bryan Cornelius Lauwrence |
