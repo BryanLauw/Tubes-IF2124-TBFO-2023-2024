@@ -121,9 +121,6 @@ UT	p	FormN	UAttr	P,FormN
 UAttr	>	P	Text	GaT,P
 UT	p>	P	B	e
 B	<br	Body	UAttr	Br,Body
-UT	br	DivN	UAttr	Br,DivN
-UT	br	FormN	UAttr	Br,FormN
-UT	br	GaT	UAttr	Br,GaT
 UAttr	>	Br	B	e
 B   e   GaT Text    GaT
 B	<hr	Body	UAttr	Hr,Body
@@ -166,8 +163,6 @@ UT  /       DivN    UT      e
 UT	div>	Div	    B	    e
 B   e       DivN    Text    DivN
 B	<button	Body	UAttr	Button,Body
-UT	button	DivN	UAttr	Button,Div
-UT	button	FormN	UAttr	Button,FormN
 UAttr	>	Button	Text	GaT,Button
 UAttr	type="submit"	Button	UAttr	Button
 UAttr	type="reset"	Button	UAttr	Button
