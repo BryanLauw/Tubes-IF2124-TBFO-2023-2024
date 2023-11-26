@@ -86,8 +86,11 @@ Lines = file_html.readlines()
 word_buffer = ""
 m=1
 last_input = m
+last_input_char = 0
 for line in Lines:
+    n=0
     for char in line:
+        n += 1
         input = None
         state, stack = epsilonTransition(state,stack)
         old_state = state[:]
@@ -95,6 +98,7 @@ for line in Lines:
 
         if char != ' ' and char != '\n': 
             word_buffer += char
+            # print(word_buffer)
 
         if word_buffer in input_list:  
             input = word_buffer
@@ -117,11 +121,12 @@ for line in Lines:
                         break
             if can_search:
                 last_input = m
+                last_input_char = n
                 word_buffer = ''
                 # print(input,old_state,old_stack,state,stack)
-                print(input,m,state,stack)
-            else:
-                print(input)
+                # print(input,m,state,stack)
+            # else:
+            #     print(input)
         
         if input == None or not can_search:
             # '%' sebagai pengganti simbol 'all'
@@ -142,12 +147,13 @@ for line in Lines:
     m += 1
 
 epsilonTransition(state,stack)
-print(state,stack)
+# print(state,stack)
 if (accept_condition == "F" and state in final_states) or (accept_condition == "E" and stack == []):
     print("Accepted")
 else:
     print("Syntax Error")
-    print(f'Terjadi kesalahan ekspresi pada line {last_input} : "{Lines[last_input-1].strip()}"')
+    temp_line = Lines[last_input-1]
+    print(f"Terjadi kesalahan ekspresi pada line {last_input} : '{temp_line[:last_input_char].rstrip()+"\033[4m"+temp_line[last_input_char:].rstrip()+"\033[0m"}' karakter ke-{last_input_char+1} : '{temp_line[last_input_char].rstrip()}'")
     temp = []
     for i in transition_table:
         if i[0] == state and i[2] == stack[-1] and splitSymbols(i[4])[0] != stack[-1]:
@@ -167,5 +173,5 @@ else:
             print("Expected input: ",end="")
             for i in range(len(temp)):
                 if (i>0):
-                    print(", ",end="")
+                    print("|| ",end="")
                 print(temp[i],end=" ")
