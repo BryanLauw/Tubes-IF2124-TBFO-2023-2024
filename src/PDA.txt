@@ -8,7 +8,6 @@ F
 Q0	<!-	%	Text	KQ0,%
 H	<!-	%	Text	KH,%
 B	<!-	%	Text	KB,%
-B	!-	%	Text	KB,%
 F   <   %   Dead    %
 Dead	!-	%	Text	KF,%
 UT	!-	%	Text	KUT,%
