@@ -1,4 +1,4 @@
-Q0 H B F Text UT UAttr
+Q0 H B F Text UT UAttr Dead
 " < > / id=" class=" style=" <html </html> <head </head> <title title> <script src=" script> <link href=" rel= <body </body> <h1 h1 h1> <h2 h2 h2> <h3 h3 h3> <h4 h4 h4> <h5 h5 h5> <h6 h6 h6> <a a a> <img img alt=" src= <script script> <link <p p p> <br br <hr hr <em em em> <b b r utton b> <abbr abbr abbr> <strong strong strong> <small small small> <div div div> </div> <button button type="submit" type="reset" type="button" button> <form form form> <input input type="text" type="password" type="email" type="number" type="checkbox" <table table action=" method="POST" method="GET" </table> <tr </tr> <th th> <td td> <!- !- -
 Z0 Ga GaT Html Head Body Title HScript BScript HLinkB HLinkA BLinkB BLinkA H1 H2 H3 H4 H5 H6 P Br Em Bold Abbr Strong Small Hr Div A ImgB ImgA  Button Form	FormN Input Table TR TD TH K KQ0 KH KB KF KUT KA	
 Q0
@@ -9,13 +9,9 @@ Q0	<!-	%	Text	KQ0,%
 H	<!-	%	Text	KH,%
 B	<!-	%	Text	KB,%
 B	!-	%	Text	KB,%
-F	<!-	%	Text	KF,%
+F   <   %   Dead    %
+Dead	!-	%	Text	KF,%
 UT	!-	%	Text	KUT,%
-Q0	-	KQ0	Text	K,KQ0
-H	-	KH	Text	K,KH
-B	-	KB	Text	K,KB
-F	-	KF	Text	K,KF
-UT	-	KUT	Text	K,KUT
 Text	-	K	Text	KA
 Text	%	K	Text	K
 Text	-	KA	Text	e

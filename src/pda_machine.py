@@ -163,8 +163,9 @@ else:
         for i in transition_table:
             if i[0] == state and i[2] == stack[-1]:
                 temp.append(i[1])
-        print("Expected input: ",end="")
-        for i in range(len(temp)):
-            if (i>0):
-                print(", ",end="")
-            print(temp[i],end=" ")
+        if len(temp)>0:
+            print("Expected input: ",end="")
+            for i in range(len(temp)):
+                if (i>0):
+                    print(", ",end="")
+                print(temp[i],end=" ")
